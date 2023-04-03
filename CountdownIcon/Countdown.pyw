@@ -5,13 +5,13 @@ import tkinter as tk
 from tkinter import ttk
 
 # Set the path to the icon file
-icon_path = "C:/Users/frans/Desktop/Python/CountdownIcon/clock1.ico"
+icon_path = "C:/Users/frans/Desktop/Python/Python/CountdownIcon/clock1.ico"
 
 # Define the function to show the countdown clock
 def show_countdown():
     # Create a new tkinter window
     root = tk.Tk()
-    root.geometry('300x150+{}+0'.format(root.winfo_screenwidth()-300))
+    root.geometry('300x160+{}+0'.format(root.winfo_screenwidth()-300))
     root.title('Countdown')
     root.configure(background='#0000FF')
     root.iconbitmap(icon_path) # set the icon for the window
@@ -20,59 +20,109 @@ def show_countdown():
     root.overrideredirect(False) # show the minimize and maximize buttons
     root.iconify() # minimize the window to the taskbar
 
+    lunch_label = tk.Label(root, text="Lunch Break", font=('Impact', 20, 'bold'), fg='green', bg='#0000FF')
+    lunch_label.pack()
+    lunch_label.pack_forget()
+    
+    style = ttk.Style()
+    style.theme_create("my_theme", parent="alt", settings={
+        "TButton": {
+            "configure": {
+                "foreground": "green",
+                "background": "black",
+                "font": ("Impact", 12) # change the font size here
+            },
+        },
+    })
+
+    # use the custom theme for the button
+    style.theme_use("my_theme")
     lunch_button = ttk.Button(root, text="Lunch Time")
-    lunch_button.pack(pady=5)
+    lunch_button.pack()
+
+    lunch_time_remaining_label = tk.Label(root, text="", font=('Impact', 12, 'bold'), fg='white', bg='#0000FF')
+    lunch_time_remaining_label.pack()
 
     # Define the function to handle the lunch break button click
     def lunch_break():
-        countdown.lunch_break = True  # set the lunch break flag
-        time_label.config(text="Lunch Break")
-        time_label.config(foreground='green')
+        lunch_label.config(text="Lunch Break")
+        lunch_label.config(foreground='green')
         lunch_button.config(state="disabled")  # disable the lunch button
-        root.after(1800000, end_lunch_break)  # schedule the end of lunch break after 30 minutes
-
-    # Define the function to handle the end of lunch break
-    def end_lunch_break():
-        countdown.lunch_break = False  # reset the lunch break flag
-        lunch_button.config(state="normal")  # enable the lunch button
-
-    # Bind the lunch break button to the lunch_break function
-    lunch_button.config(command=lunch_break)
+        lunch_label.pack()
+        lunch_time_remaining_label.pack()
         
-    # Define the countdown function
-    def countdown(root, time_label, icon, duration):
+        end_time = datetime.datetime.now() + datetime.timedelta(minutes=30)
+        remaining_time = end_time - datetime.datetime.now()
+
+        def update_lunch_time_remaining():
+            nonlocal remaining_time
+            remaining_time -= datetime.timedelta(seconds=1)
+            if remaining_time > datetime.timedelta():
+                minutes, seconds = divmod(remaining_time.seconds, 60)
+                time_label_text = '{:02d}:{:02d}'.format(minutes, seconds)
+                lunch_time_remaining_label.config(text=f"Time remaining: {time_label_text}")
+                lunch_time_remaining_label.after(1000, update_lunch_time_remaining)
+            else:
+                lunch_time_remaining_label.config(text="Time's up!")
+                lunch_button.config(state="normal")  # enable the lunch button
+
+        update_lunch_time_remaining()
+        
+        root.after(1800000, end_lunch_break_and_continue_countdown)
+        
+
+    # Define the function to handle the end of lunch break and continue the countdown
+    def end_lunch_break_and_continue_countdown():
+        lunch_label.pack_forget()
+        lunch_button.config(state="normal")  # enable the lunch button
         now = datetime.datetime.now()
         if now.weekday() < 4:  # Monday through Thursday
             end_time = now.replace(hour=17, minute=0, second=0, microsecond=0)
         else:  # Friday
             end_time = now.replace(hour=16, minute=30, second=0, microsecond=0)
-            
-        # Check if it's within lunch break period (12:00pm-12:30pm)
-        if now.weekday() < 5 and now.hour == 12 and now.minute >= 0 and now.minute < 30:
-            time_label_text = "Lunch Break"
-            time_label.config(text=time_label_text)
-            time_label.config(background='#0000FF')
-            time_label.config(foreground='green')
-            time_label.update()
-            icon.update(hover_text=time_label_text)  # update system tray icon's label text
-            root.after(1000, countdown, root, time_label, icon, duration)
+
+        remaining_time = end_time - now
+        if remaining_time > datetime.timedelta():
+            minutes, seconds = divmod(remaining_time.seconds, 60)
+            hours, minutes = divmod(minutes, 60)
+            time_label_text = '{:02d}:{:02d}:{:02d}'.format(hours, minutes, seconds)
+            time_label.config(foreground='black')
         else:
+            time_label_text = 'Time is up!'
+            time_label.config(foreground='red')
+
+        time_label.config(text=time_label_text)
+        icon.update(hover_text=time_label_text)  # update system tray icon's label text
+        root.after(1000, countdown, root, time_label, icon, remaining_time.seconds)
+
+
+    # Bind the lunch break button to the lunch_break function
+    lunch_button.config(command=lunch_break)
+
+    # Define the countdown function
+    def countdown(root, time_label, icon, duration, remaining_time=None):
+        now = datetime.datetime.now()
+        if remaining_time is None:
+            if now.weekday() < 4:  # Monday through Thursday
+                end_time = now.replace(hour=17, minute=0, second=0, microsecond=0)
+            else:  # Friday
+                end_time = now.replace(hour=16, minute=30, second=0, microsecond=0)
             remaining_time = end_time - now
-            if remaining_time > datetime.timedelta():
-                minutes, seconds = divmod(remaining_time.seconds, 60)
-                hours, minutes = divmod(minutes, 60)
-                time_label_text = '{:02d}:{:02d}:{:02d}'.format(hours, minutes, seconds)
-                time_label.config(text=time_label_text)
-                time_label.config(foreground='black')
-                time_label.config(background='#0000FF')
-                time_label.update()
-                icon.update(hover_text=time_label_text)  # update system tray icon's label text
-                root.after(1000, countdown, root, time_label, icon, duration)
-            else:
-                time_label.config(text='Time is up!')
-                time_label.config(background='#0000FF')
-                time_label.config(foreground='red')
-                icon.update(hover_text='Time is up!')
+
+        if remaining_time > datetime.timedelta():
+            minutes, seconds = divmod(remaining_time.seconds, 60)
+            hours, minutes = divmod(minutes, 60)
+            time_label_text = '{:02d}:{:02d}:{:02d}'.format(hours, minutes, seconds)
+            time_label.config(foreground='black')
+        else:
+            time_label_text = 'Time is up!'
+            time_label.config(foreground='red')
+
+        time_label.config(text=time_label_text)
+        time_label.config(background='#0000FF')
+        time_label.update()
+        icon.update(hover_text=time_label_text)  # update system tray icon's label text
+        root.after(1000, countdown, root, time_label, icon, duration, remaining_time - datetime.timedelta(seconds=1))
 
         duration -= 1
         if duration == 0:
@@ -81,7 +131,7 @@ def show_countdown():
 
     # Create the time label and countdown button
     time_label = ttk.Label(root, font=('Impact', 40))
-    time_label.pack(pady=20)
+    time_label.pack()
 
     duration = 5 # set the duration for the window to stay open
     countdown(root, time_label, icon, duration) # call countdown function here
