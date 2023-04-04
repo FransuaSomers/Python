@@ -1,14 +1,29 @@
 import datetime
 import infi.systray
-from PIL import Image
+import os
 import tkinter as tk
 from tkinter import ttk
+from tkinter import filedialog
 
-# Set the path to the icon file
-icon_path = "C:/Users/frans/Desktop/Python/Python/CountdownIcon/clock1.ico"
+# Define the path to the file where the icon path is stored
+ICON_PATH_FILE = "icon_path.txt"
+
+# Check if the file exists and read the stored icon path
+if os.path.exists(ICON_PATH_FILE):
+    with open(ICON_PATH_FILE, "r") as f:
+        icon_path = f.read().strip()
+else:
+    # Prompt the user to select an icon file
+    root = tk.Tk()
+    root.withdraw()
+    icon_path = filedialog.askopenfilename(filetypes=[("Icon Files", "*.ico")])
+    # Write the selected icon path to the file
+    with open(ICON_PATH_FILE, "w") as f:
+        f.write(icon_path)
 
 # Define the function to show the countdown clock
 def show_countdown():
+
     # Create a new tkinter window
     root = tk.Tk()
     root.geometry('300x160+{}+0'.format(root.winfo_screenwidth()-300))
@@ -34,7 +49,7 @@ def show_countdown():
             },
         },
     })
-
+    
     # use the custom theme for the button
     style.theme_use("my_theme")
     lunch_button = ttk.Button(root, text="Lunch Time")
