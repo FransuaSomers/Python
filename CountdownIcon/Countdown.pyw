@@ -6,20 +6,22 @@ from tkinter import ttk
 from tkinter import filedialog
 
 # Define the path to the file where the icon path is stored
-ICON_PATH_FILE = "icon_path.txt"
+ICON_PATH_FILE = "icon_paths.txt"
 
 # Check if the file exists and read the stored icon path
 if os.path.exists(ICON_PATH_FILE):
     with open(ICON_PATH_FILE, "r") as f:
-        icon_path = f.read().strip()
+        icon_paths = f.read().strip().split("\n")
 else:
     # Prompt the user to select an icon file
     root = tk.Tk()
     root.withdraw()
-    icon_path = filedialog.askopenfilename(filetypes=[("Icon Files", "*.ico")])
+    icon_paths = [filedialog.askopenfilename(filetypes=[("Icon Files", "*.ico")])]
     # Write the selected icon path to the file
     with open(ICON_PATH_FILE, "w") as f:
-        f.write(icon_path)
+        f.write(icon_paths[0])
+
+
 
 # Define the function to show the countdown clock
 def show_countdown():
@@ -29,7 +31,7 @@ def show_countdown():
     root.geometry('300x160+{}+0'.format(root.winfo_screenwidth()-300))
     root.title('Countdown')
     root.configure(background='#0000FF')
-    root.iconbitmap(icon_path) # set the icon for the window
+    root.iconbitmap(icon_paths[0]) # set the icon for the window
     root.wm_attributes('-topmost', True) # bring the window to the front
     root.resizable(True, True) # show the minimize and maximize buttons
     root.overrideredirect(False) # show the minimize and maximize buttons
@@ -49,7 +51,6 @@ def show_countdown():
             },
         },
     })
-    
     # use the custom theme for the button
     style.theme_use("my_theme")
     lunch_button = ttk.Button(root, text="Lunch Time")
@@ -168,7 +169,7 @@ def on_right_click(systray):
 
 # Create the icon and set its title
 menu_options = (("Countdown", None, lambda systray: show_countdown()),)
-icon = infi.systray.SysTrayIcon(icon_path, "CountdownIcon", menu_options)
+icon = infi.systray.SysTrayIcon(icon_paths[0], "CountdownIcon", menu_options)
 
 # Start the app
 icon.start()
