@@ -1,4 +1,4 @@
-# Hi, I'm [Fransua] 👋
+# Hi, I'm Fransua 👋
 
 I'm a software developer with experience in C#, Java, MEAN full stack, SQL, MySQL, and PL/SQL. I'm currently learning Python and working on expanding my skillset.
 
