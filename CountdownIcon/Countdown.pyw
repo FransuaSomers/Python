@@ -5,10 +5,10 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
 
-# Define the path to the file where the icon path is stored
+# Define the path to the file where the icon paths are stored
 ICON_PATH_FILE = "icon_paths.txt"
 
-# Check if the file exists and read the stored icon path
+# Check if the file exists and read the stored icon paths
 if os.path.exists(ICON_PATH_FILE):
     with open(ICON_PATH_FILE, "r") as f:
         icon_paths = f.read().strip().split("\n")
@@ -21,6 +21,17 @@ else:
     with open(ICON_PATH_FILE, "w") as f:
         f.write(icon_paths[0])
 
+# Check if the specified icon paths exist and prompt the user to enter a new path if not
+for i, path in enumerate(icon_paths):
+    if not os.path.exists(path):
+        root = tk.Tk()
+        root.withdraw()
+        new_path = filedialog.askopenfilename(filetypes=[("Icon Files", "*.ico")])
+        icon_paths[i] = new_path
+        with open(ICON_PATH_FILE, "w") as f:
+            f.write("\n".join(icon_paths))
+
+# Use the icon paths in the app
 
 
 # Define the function to show the countdown clock
