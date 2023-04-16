@@ -32,6 +32,12 @@ class RandomVideoPlayer:
         self.play_button = tk.Button(self.window, text="Pause/Play", command=self.play_pause_video)
         self.play_button.grid(row=4, column=0, columnspan=2)
 
+        
+        # Create the skip backward button and forward button
+        tk.Button(self.window, text=">> 5s", command=self.skip_forward).grid(row=5, column=1)
+        tk.Button(self.window, text="<< 5s", command=self.skip_backward).grid(row=5, column=0)
+        
+
         # Create empty row
         tk.Label(self.window, text="").grid(row=3, column=0)
 
@@ -58,6 +64,15 @@ class RandomVideoPlayer:
             while self.clip.reader.is_playing():
                 self.window.update()
                 time.sleep(0.01)
+
+
+    def skip_forward(self):
+        if hasattr(self, 'clip'):
+            self.clip.reader.seek(self.clip.reader.get_frame_time(self.clip.reader.get_frame() + 5))
+
+    def skip_backward(self):
+        if hasattr(self, 'clip'):
+            self.clip.reader.seek(self.clip.reader.get_frame_time(self.clip.reader.get_frame() - 5))
 
 
     def browse_directory(self):
