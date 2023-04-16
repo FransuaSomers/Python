@@ -1,0 +1,34 @@
+FransuaSomers - #008 - Added Coffee Ratings app
+
++Added new CoffeeRatings app
++Changes to RandomVideoPlayer
+FransuaSomers - #005 - OG Tetris Game Added
+FransuaSomers - #009 - Notes App changes
+FransuaSomers - Merge branch 'main' of https://github.com/FransuaSomers/Python
+FransuaSomers - #007 - PDF Extractor Added
+Fransua Somers - Merge branch 'main' of https://github.com/FransuaSomers/Python
+Fransua Somers - #008 - Added Notes app
+FransuaSomers - #006 - Fixed File Paths CountdownApp
+FransuaSomers - #005 - Tetris Clone Added
+FransuaSomers - #004 - RandomVideoPlayer Added
+FransuaSomers - Merge branch 'main' of https://github.com/FransuaSomers/Python
+FransuaSomers - #003 - General Changes
+FransuaSomers - #002 - Added More Python apps
+FransuaSomers - Update README.md
+FransuaSomers - README.md
+FransuaSomers - MusicBot Rename
+FransuaSomers - #001 - Car Icon Added
+
+- Added Car Icon for test.
+- Icon file can be set to any .ico file
+FransuaSomers - File Path Select
+
+File Path Select added to allow for multiple paths from different machines
+FransuaSomers - Icon Path and Theme
+
+Lunch Break button added
+Non-static file path added
+Theme for Lunch Break button added
+FransuaSomers - Update Countdown.pyw
+FransuaSomers - Python
+FransuaSomers - Initial commit

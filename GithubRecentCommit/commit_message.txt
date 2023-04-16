@@ -1,0 +1,6 @@
+#008 - Added Coffee Ratings app
+
+
++Added new CoffeeRatings app
+
++Changes to RandomVideoPlayer
