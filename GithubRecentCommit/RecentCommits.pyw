@@ -13,11 +13,17 @@ response = requests.get(url)
 # Parse the JSON response
 commits = response.json()
 
-# Get the most recent commit title
-most_recent_commit_title = commits[0]['commit']['message'].splitlines()[0]
+# Find the most recent commit that isn't a merge commit
+most_recent_commit = None
+for commit in commits:
+    if 'Merge branch' not in commit['commit']['message']:
+        most_recent_commit = commit
+        break
 
-# Get the most recent commit message
-most_recent_commit_message = commits[0]['commit']['message'].replace("+", "\n+")
+# Get the most recent commit title and message
+most_recent_commit_title = most_recent_commit['commit']['message'].splitlines()[0]
+most_recent_commit_message = most_recent_commit['commit']['message'].replace("+", "\n+")
+
 
 with open('commit_message.txt', 'w') as f:
     f.write(most_recent_commit_message)
