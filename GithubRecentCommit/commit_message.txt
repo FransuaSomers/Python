@@ -1,6 +1,4 @@
-#011 - Changes to RecentCommits app
+#012 Changes to RecentCommits
 
 
-+ Fixed "Quit" button
-
-+ Added recent commit message on hover
++ Added check for branch merges changing commit title to previous commit number
