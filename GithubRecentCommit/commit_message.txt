@@ -1,4 +1,6 @@
-#012 Changes to RecentCommits
+#013 - Added Quote of the day app
 
 
-+ Added check for branch merges changing commit title to previous commit number
++ Added Quote of the day app
+
++ Added .gitignore for text files
