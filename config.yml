@@ -1,0 +1,7 @@
+# confi.yml - Configuration file
+
+# General settings
+name: Python
+version: 1.16
+debug: false
+
