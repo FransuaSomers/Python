@@ -1,6 +1,3 @@
-#013 - Added Quote of the day app
+#017 - Added config.yml file
 
-
-+ Added Quote of the day app
-
-+ Added .gitignore for text files
+#017 - Added config.yml file

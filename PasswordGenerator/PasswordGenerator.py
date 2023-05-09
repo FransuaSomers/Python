@@ -19,7 +19,7 @@ def generate_password():
         # Append to .txt list with username, password, and length
         username = entry_username.get()
         date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        password_data = "{} - {} (Length: {})".format(date, username, length)
+        password_data = "{} UN:{} PW:{} (Length: {})".format(date, username, password, length)
         with open('passwords.txt', 'a') as file:
             file.write(password_data + "\n")
         lbl_password.config(text=password)  # Update the text of lbl_password with the password
