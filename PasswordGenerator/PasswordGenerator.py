@@ -20,11 +20,7 @@ def generate_password():
         # Append to .txt list with username, password, and length
         username = entry_username.get()
         date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-<<<<<<< HEAD
-        password_data = "{} UN:{} PW:{} (Length: {})".format(date, username, password, length)
-=======
         password_data = "{} || UN:   {} || PW:   {} (Length: {})".format(date, username,password, length)
->>>>>>> 3def91b792c358b5995745862e6c34fb7f681917
         with open('passwords.txt', 'a') as file:
             file.write(password_data + "\n")
         lbl_password.config(text=password)  # Update the text of lbl_password with the password
@@ -50,7 +46,7 @@ def clear_password():
     lbl_password.config(text="")
     btn_copy.grid_remove()  # Hide the "Copy to Clipboard" button
     btn_copy.config(state='disabled')  # Disable the "Copy to Clipboard" button
-    btn_clear.config(state='disabled')  # Disable the "Clear" button
+    #btn_clear.config(state='disabled')  # Disable the "Clear" button
     lbl_message.config(text="", foreground="black")  # Update the label with an empty message
 
 # Function to read passwords from passwords.txt
